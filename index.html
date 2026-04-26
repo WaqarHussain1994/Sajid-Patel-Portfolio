@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Sajid Patel | Video Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+/* UPDATED: BALANCED ORANGE GLOW GRADIENT */
+body { 
+    background: #000000; 
+    background: linear-gradient(135deg, #b34a00 0%, #000000 85%); 
+    background-attachment: fixed;
+    background-size: cover;
+    scroll-behavior: smooth; 
+    color: #fff; 
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(179, 74, 0, 0.06) 60%, transparent 85%);
+    animation: bgGlowMove 8s infinite alternate ease-in-out;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes bgGlowMove {
+    0% { transform: translate(-5%, -5%) scale(1); }
+    100% { transform: translate(5%, 5%) scale(1.1); }
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+    opacity: 0.2;
+    z-index: 0;
+    pointer-events: none;
+}
+
+nav { 
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+    padding: 15px 10%; 
+    display: flex; 
+    justify-content: flex-end; 
+    background: rgba(38, 41, 53, 0.95); 
+    backdrop-filter: blur(10px); 
+    z-index: 1000; 
+    border-bottom: 1px solid rgba(179, 9, 56, 0.3); 
+}
+nav a, .cv-trigger { 
+    text-decoration: none; 
+    color: #fff; 
+    padding: 8px 20px; 
+    border-radius: 20px; 
+    border: 1px solid #b30938; 
+    font-size: 14px; 
+    transition: 0.3s; 
+    font-weight: 600;
+    cursor: pointer;
+    background: transparent;
+    margin-left: 10px;
+}
+nav a:hover, .cv-trigger:hover { 
+    background: #b30938; 
+    color: #fff !important; 
+    box-shadow: 0 0 15px rgba(179, 9, 56, 0.6); 
+    text-decoration: none; 
+}
+
+/* MODIFIED CV MODAL FOR ZOOM & PAN */
+#cvOverlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    overflow: hidden; /* Prevent scrollbars during zoom */
+    touch-action: none;
+}
+
+.cv-container {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+}
+
+.cv-container:active { cursor: grabbing; }
+
+#cvImage {
+    max-width: 100%;
+    max-height: 100%;
+    transition: transform 0.1s ease-out; /* Smooth zoom */
+    border: 2px solid #b30938;
+    box-shadow: 0 0 30px rgba(179, 9, 56, 0.5);
+    border-radius: 5px;
+    transform-origin: center;
+}
+
+.close-cv {
+    position: absolute;
+    top: 20px; right: 30px;
+    color: #fff;
+    font-size: 40px;
+    cursor: pointer;
+    z-index: 2100;
+    transition: 0.3s;
+}
+.close-cv:hover { color: #b30938; transform: scale(1.1); }
+
+/* Help text for user */
+.zoom-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(179, 9, 56, 0.7);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    pointer-events: none;
+}
+
+.banner-wrapper {
+    height: 70vh;
+    width: 100%;
+    margin-top: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #000;
+    border-bottom: 3px solid #b30938;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.banner-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.section-title { 
+    font-size: 1.8rem; 
+    margin-bottom: 40px; 
+    color: #fff; 
+    text-align: center; 
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px; 
+    background: rgba(179, 9, 56, 0.1); 
+    backdrop-filter: blur(15px) saturate(200%);
+    padding: 12px 35px; 
+    border-radius: 50px; 
+    border: 1px solid rgba(179, 9, 56, 0.5);
+    border-top: 2px solid rgba(255, 255, 255, 0.4); 
+    display: inline-block;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 20px rgba(179, 9, 56, 0.2), 0 10px 25px rgba(0, 0, 0, 0.6); 
+    position: relative;
+    overflow: hidden;
+    animation: lightBlink 3s infinite ease-in-out;
+}
+
+@keyframes lightBlink {
+    0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(179, 9, 56, 0.5); border-color: rgba(179, 9, 56, 0.5); }
+    50% { opacity: 0.8; text-shadow: 0 0 25px rgba(179, 9, 56, 0.9); border-color: rgba(179, 9, 56, 1); }
+}
+
+.portfolio-category h3 { 
+    color: #fff; 
+    font-size: 1.5rem; 
+    margin-bottom: 30px; 
+    border-left: 5px solid #b30938; 
+    padding: 10px 25px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.2), transparent);
+    border-radius: 0 15px 15px 0;
+}
+
+.title-container { text-align: center; width: 100%; }
+section { padding: 90px 10%; position: relative; z-index: 1; }
+
+.about { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+.about img { 
+    width: 100%; 
+    max-width: 380px; 
+    border-radius: 15px; 
+    border: 3px solid #b30938; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.7); 
+    margin: 0 auto; 
+    display: block; 
+}
+.about p { color: #fdfdfd; line-height: 1.9; font-size: 1.1rem; text-align: justify; }
+
+.portfolio-category { margin-top: 70px; }
+.videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+
+.video-card { 
+    background: rgba(0, 0, 0, 0.7); 
+    border-radius: 12px; 
+    overflow: hidden; 
+    border: 1px solid rgba(179, 9, 56, 0.3); 
+    transition: 0.4s ease; 
+    text-decoration: none; 
+    display: block;
+}
+
+.video-card:hover { 
+    transform: translateY(-12px); 
+    border-color: #b30938; 
+    box-shadow: 0 15px 40px rgba(179, 9, 56, 0.7), 0 0 25px 10px rgba(255, 215, 0, 0.6); 
+    text-decoration: none;
+}
+
+.video-card img { 
+    width: 100%; 
+    height: 220px; 
+    object-fit: cover; 
+    border-bottom: 2px solid rgba(179, 9, 56, 0.2); 
+}
+
+.video-caption { padding: 15px; text-align: center; background: #000; color: #fff; font-weight: 700; font-size: 0.95rem; }
+
+.design-links { text-align: center; margin-top: 50px; }
+.design-btn { 
+    display: inline-block; 
+    padding: 14px 40px; 
+    margin: 10px; 
+    border: 2px solid #b30938; 
+    color: #fff; 
+    text-decoration: none; 
+    border-radius: 35px; 
+    font-weight: 700; 
+    transition: 0.4s; 
+    background: rgba(0,0,0,0.4); 
+    text-transform: uppercase;
+}
+.design-btn:hover { 
+    background: #b30938; 
+    color: #fff; 
+    box-shadow: 0 0 25px rgba(179, 9, 56, 0.7); 
+}
+
+.services { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+    gap: 25px; 
+    margin-top: 40px; 
+}
+.service-box { 
+    background: rgba(38, 41, 53, 0.85); 
+    padding: 45px 25px; 
+    border-radius: 15px; 
+    border: 1px solid rgba(179, 9, 56, 0.4); 
+    text-align: center; 
+    color: #fff; 
+    font-weight: 700; 
+    transition: 0.4s ease; 
+}
+
+.service-box:hover { 
+    transform: translateY(-12px); 
+    border-color: #b30938; 
+    box-shadow: 0 15px 40px rgba(179, 9, 56, 0.7); 
+}
+
+footer { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 50px 10%; 
+    background: #1a1c24; 
+    border-top: 3px solid #b30938; 
+    color: #ddd; 
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-left { display: flex; align-items: center; gap: 20px; }
+
+.countdown-circle {
+    width: 65px; height: 65px;
+    border: 3px solid #b30938;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: #b30938; font-size: 1.6rem;
+}
+
+.brand-text {
+    font-weight: 700; color: #fff; font-size: 1.6rem;
+    display: none; letter-spacing: 2px; text-transform: uppercase;
+    animation: premiumFade 1.2s forwards;
+}
+
+@keyframes premiumFade {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.social-icons a { color: #fff; margin: 0 15px; font-size: 28px; transition: 0.3s; }
+.social-icons a:hover { transform: translateY(-8px); color: #b30938; }
+
+@media (max-width: 992px) { 
+    .about { grid-template-columns: 1fr; text-align: center; } 
+    .videos { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="#about-section">About</a>
+    <a href="#portfolio-section">Portfolio</a>
+    <a href="#services-section">Services</a>
+    <button class="cv-trigger" onclick="toggleCV()">CV</button>
+</nav>
+
+<div id="cvOverlay">
+    <span class="close-cv" onclick="toggleCV()">&times;</span>
+    <div class="cv-container" id="cvContainer">
+        <img src="OWN-CV-UPDATE.png" alt="Muhammad-Sajid-Patel-CV" id="cvImage">
+    </div>
+    <div class="zoom-hint">Scroll to Zoom | Click & Drag to Move</div>
+</div>
+
+<div class="banner-wrapper">
+    <img src="linkdin banner new (current set).png" alt="Muhammad Sajid Patel | Video Editor">
+</div>
+
+<section id="about-section">
+    <div class="title-container">
+        <h2 class="section-title">About Me</h2>
+    </div>
+    <div class="about">
+        <img src="sajid.jpg" alt="Muhammad Sajid Patel">
+        <p> Hi, I’m <strong>Muhammad Sajid Patel</strong>, the founder of SP Creative Studio. I’m a dedicated video editor and creative designer, crafting engaging videos and dynamic designs. <br><br> I specialize in video editing, motion graphics, and I also leverage AI tools to generate unique visual content. At SP Creative Studio, I combine creativity with technology to deliver work that truly stands out in the digital world. </p>
+    </div>
+</section>
+
+<section id="portfolio-section">
+    <div class="title-container">
+        <h2 class="section-title">Portfolio</h2>
+    </div>
+
+    <div class="portfolio-category">
+        <h3>Documentaries</h3>
+        <div class="videos">
+            <a href="https://vimeo.com/1185309202" target="_blank" class="video-card">
+                <img src="documentary/how islam reach to africa.jpg" alt="Islam in China">
+                <div class="video-caption">HOW ISLAM REACH TO CHINA 4K</div>
+            </a>
+            <a href="https://vimeo.com/1185299371" target="_blank" class="video-card">
+                <img src="documentary/how islam reach to china historical documentry 4k.jpg" alt="Islam in Africa">
+                <div class="video-caption">How Islam Reach To China Historical Documentry 4k</div>
+            </a>
+            <a href="https://vimeo.com/1185310866" target="_blank" class="video-card">
+                <img src="documentary/Jung e Mutah  Cinematic Islamic Historical Documentary Trailer.jpg" alt="Jung e Mutah">
+                <div class="video-caption">Jung e Mutah  Cinematic Islamic Historical Documentary Trailer</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="portfolio-category">
+        <h3>Long Form Content</h3>
+        <div class="videos">
+            <a href="https://vimeo.com/1185296665" target="_blank" class="video-card">
+                <img src="long video/TCS AD MOTION GRAPHICS.jpg" alt="TCS Ad">
+                <div class="video-caption">TCS AD MOTION GRAPHICS</div>
+            </a>
+            <a href="https://vimeo.com/1185275431" target="_blank" class="video-card">
+                <img src="long video/3D SEAMLESS EDITING DOCUMENTRY.jpg" alt="3D Story">
+                <div class="video-caption">3D SEAMLESS EDITING DOCUMENTRY</div>
+            </a>
+            <a href="https://vimeo.com/1185273699" target="_blank" class="video-card">
+                <img src="long video/ALPHA FLEET SOLUTION.jpg" alt="Alpha Fleet">
+                <div class="video-caption">ALPHA FLEET SOLUTION</div>
+            </a>
+            <a href="https://vimeo.com/1185271744" target="_blank" class="video-card">
+                <img src="long video/BANO QABIL AD.jpg" alt="Bano Qabil">
+                <div class="video-caption">BANO QABIL AD</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="portfolio-category">
+        <h3>Short Form Reels</h3>
+        <div class="videos">
+            <a href="https://vimeo.com/1185319017" target="_blank" class="video-card">
+                <img src="short video/never escape to 9 to 5.jpg" alt="9 to 5">
+                <div class="video-caption">Never Escape to 9 to 5</div>
+            </a>
+            <a href="https://vimeo.com/1185321513" target="_blank" class="video-card">
+                <img src="short video/buisness reel.jpg" alt="Business">
+                <div class="video-caption">Business Reel</div>
+            </a>
+            <a href="https://vimeo.com/1185319949" target="_blank" class="video-card">
+                <img src="short video/kids mobile addition.jpg" alt="Mobile">
+                <div class="video-caption">Kids Mobile Addition</div>
+            </a>
+            <a href="https://vimeo.com/1185320806" target="_blank" class="video-card">
+                <img src="short video/motivational story reel.jpg" alt="Motivation">
+                <div class="video-caption">Motivational Story Reel</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="portfolio-category">
+        <div class="title-container">
+            <h2 class="section-title">Design Showcase</h2>
+        </div>
+        <div class="design-links">
+            <a href="https://www.behance.net/sajidpatel087" target="_blank" class="design-btn"><i class="fab fa-behance"></i> Behance Portfolio</a>
+            <a href="https://www.linkedin.com/in/sajid-patel-b3447b398" target="_blank" class="design-btn"><i class="fab fa-linkedin"></i> LinkedIn Profile</a>
+        </div>
+    </div>
+</section>
+
+<section id="services-section">
+    <div class="title-container">
+        <h2 class="section-title">What I Offer</h2>
+    </div>
+    <div class="services">
+        <div class="service-box"><h4>Video Editing</h4></div>
+        <div class="service-box"><h4>Motion Graphics</h4></div>
+        <div class="service-box"><h4>Creative Design</h4></div>
+    </div>
+</section>
+
+<footer> 
+    <div class="footer-left">
+        <div class="countdown-circle" id="countdown">1</div>
+        <div class="brand-text" id="brandText">SP Creative Studio</div>
+    </div>
+    <div>© 2026 Muhammad Sajid Patel</div>
+    <div class="social-icons"> 
+        <a href="#"><i class="fab fa-facebook"></i></a> 
+        <a href="#"><i class="fab fa-whatsapp"></i></a> 
+        <a href="#"><i class="fab fa-instagram"></i></a> 
+    </div> 
+</footer>
+
+<script>
+    // CV ZOOM AND PAN LOGIC
+    let scale = 1;
+    let pointX = 0;
+    let pointY = 0;
+    let start = { x: 0, y: 0 };
+    let isPanning = false;
+
+    const cvImage = document.getElementById('cvImage');
+    const cvContainer = document.getElementById('cvContainer');
+
+    function setTransform() {
+        cvImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+    }
+
+    cvContainer.onwheel = function (e) {
+        e.preventDefault();
+        const xs = (e.clientX - pointX) / scale;
+        const ys = (e.clientY - pointY) / scale;
+        const delta = -e.deltaY;
+        (delta > 0) ? (scale *= 1.2) : (scale /= 1.2);
+        
+        // Limit zoom
+        if (scale < 1) scale = 1;
+        if (scale > 5) scale = 5;
+
+        pointX = e.clientX - xs * scale;
+        pointY = e.clientY - ys * scale;
+        
+        // Reset pan if zoom is 1
+        if (scale === 1) { pointX = 0; pointY = 0; }
+        
+        setTransform();
+    }
+
+    cvContainer.onmousedown = function (e) {
+        if (scale === 1) return;
+        e.preventDefault();
+        start = { x: e.clientX - pointX, y: e.clientY - pointY };
+        isPanning = true;
+    }
+
+    window.onmousemove = function (e) {
+        if (!isPanning) return;
+        pointX = (e.clientX - start.x);
+        pointY = (e.clientY - start.y);
+        setTransform();
+    }
+
+    window.onmouseup = function (e) {
+        isPanning = false;
+    }
+
+    function toggleCV() {
+        const overlay = document.getElementById('cvOverlay');
+        if (overlay.style.display === "flex") {
+            overlay.style.display = "none";
+            document.body.style.overflow = "auto";
+            // Reset zoom when closed
+            scale = 1; pointX = 0; pointY = 0;
+            setTransform();
+        } else {
+            overlay.style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+    }
+
+    // COUNTDOWN LOGIC
+    document.addEventListener("DOMContentLoaded", function() {
+        let count = 1;
+        const maxCount = 25;
+        const countdownElement = document.getElementById('countdown');
+        const brandText = document.getElementById('brandText');
+
+        const timer = setInterval(() => {
+            count++;
+            if (count <= maxCount) {
+                countdownElement.innerText = count;
+            } else {
+                clearInterval(timer);
+                countdownElement.style.opacity = "0";
+                setTimeout(() => {
+                    countdownElement.style.display = 'none';
+                    brandText.style.display = 'block';
+                }, 600);
+            }
+        }, 800);
+    });
+</script>
+
+</body>
+</html>
